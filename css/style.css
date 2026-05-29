@@ -1,0 +1,533 @@
+/* =============================================================================
+   EXPENSE & BUDGET VISUALIZER — style.css
+   Mobile-first, single-column base; 2-column desktop at ≥768 px.
+   Light / dark themes via .theme-light / .theme-dark on <body>.
+   ============================================================================= */
+
+/* ── Reset & box-sizing ─────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── CSS custom properties (light theme defaults) ───────────────────────────── */
+:root {
+  --color-bg:           #f5f7fa;
+  --color-surface:      #ffffff;
+  --color-border:       #e2e8f0;
+  --color-text:         #1a202c;
+  --color-text-muted:   #718096;
+  --color-primary:      #4f46e5;
+  --color-primary-dark: #4338ca;
+  --color-secondary:    #64748b;
+  --color-income:       #16a34a;
+  --color-expense:      #dc2626;
+  --color-warning-bg:   #fef9c3;
+  --color-warning-text: #854d0e;
+  --color-alert-bg:     #fee2e2;
+  --color-alert-text:   #991b1b;
+  --color-input-bg:     #ffffff;
+  --color-input-border: #cbd5e1;
+  --radius:             0.5rem;
+  --shadow:             0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.08);
+  --transition:         0.2s ease;
+}
+
+/* ── Light theme ────────────────────────────────────────────────────────────── */
+.theme-light {
+  --color-bg:           #f5f7fa;
+  --color-surface:      #ffffff;
+  --color-border:       #e2e8f0;
+  --color-text:         #1a202c;
+  --color-text-muted:   #718096;
+  --color-input-bg:     #ffffff;
+  --color-input-border: #cbd5e1;
+}
+
+/* ── Dark theme ─────────────────────────────────────────────────────────────── */
+.theme-dark {
+  --color-bg:           #0f172a;
+  --color-surface:      #1e293b;
+  --color-border:       #334155;
+  --color-text:         #f1f5f9;
+  --color-text-muted:   #94a3b8;
+  --color-input-bg:     #1e293b;
+  --color-input-border: #475569;
+  --color-primary:      #818cf8;
+  --color-primary-dark: #6366f1;
+  --color-secondary:    #94a3b8;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────────────── */
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────────── */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow);
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.app-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* ── Theme toggle button ────────────────────────────────────────────────────── */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.5rem 0.875rem;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-bg);
+  border-color: var(--color-primary);
+}
+
+/* ── Main layout ────────────────────────────────────────────────────────────── */
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.25rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Section titles ─────────────────────────────────────────────────────────── */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.875rem;
+}
+
+/* ── Summary cards ──────────────────────────────────────────────────────────── */
+.summary-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.summary-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.summary-card__title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.summary-card__value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text);
+  transition: color var(--transition);
+}
+
+.balance--positive { color: var(--color-income); }
+.balance--negative { color: var(--color-expense); }
+
+/* ── Spending limit warning banner ──────────────────────────────────────────── */
+.spending-limit-warning {
+  padding: 0.875rem 1.25rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+
+.spending-limit-warning--hidden {
+  display: none;
+}
+
+.warning--yellow {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning-text);
+  border: 1px solid #fde047;
+}
+
+.warning--red {
+  background-color: var(--color-alert-bg);
+  color: var(--color-alert-text);
+  border: 1px solid #fca5a5;
+}
+
+/* ── Form sections ──────────────────────────────────────────────────────────── */
+.form-section,
+.spending-limit-section {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.transaction-form,
+.spending-limit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.form-control {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--color-input-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  transition: border-color var(--transition), background-color var(--transition);
+  appearance: auto;
+}
+
+.form-control:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-color: var(--color-primary);
+}
+
+.form-error {
+  font-size: 0.8125rem;
+  color: var(--color-expense);
+  min-height: 1.1em;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition), opacity var(--transition);
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.btn--primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.btn--secondary {
+  background-color: var(--color-secondary);
+  color: #ffffff;
+}
+
+.btn--secondary:hover {
+  opacity: 0.85;
+}
+
+/* ── Sort control ───────────────────────────────────────────────────────────── */
+.transactions-section {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.transactions-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.form-control--sort {
+  min-width: 160px;
+  min-height: 44px;
+}
+
+/* ── Transaction list ───────────────────────────────────────────────────────── */
+.transaction-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 0.25rem; /* room for scrollbar */
+}
+
+.transaction-list__placeholder {
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+/* ── Transaction item ───────────────────────────────────────────────────────── */
+.transaction-item {
+  display: grid;
+  /* mobile: 2-column grid — badge+category on left, amount on right;
+     description and date span full width below; delete button at end */
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "badge   amount"
+    "cat     amount"
+    "desc    desc"
+    "date    delete";
+  align-items: start;
+  gap: 0.25rem 0.75rem;
+  padding: 0.875rem 1rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.badge {
+  grid-area: badge;
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  width: fit-content;
+}
+
+.badge--income  { background-color: #dcfce7; color: #166534; }
+.badge--expense { background-color: #fee2e2; color: #991b1b; }
+
+.theme-dark .badge--income  { background-color: #14532d; color: #86efac; }
+.theme-dark .badge--expense { background-color: #7f1d1d; color: #fca5a5; }
+
+.transaction-item__category {
+  grid-area: cat;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.transaction-item__amount {
+  grid-area: amount;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: right;
+  white-space: nowrap;
+  align-self: center;
+}
+
+.amount--income  { color: var(--color-income); }
+.amount--expense { color: var(--color-expense); }
+
+/* Bug fix #2: description must wrap, not overflow */
+.transaction-item__description {
+  grid-area: desc;
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.transaction-item__date {
+  grid-area: date;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  align-self: center;
+}
+
+.btn-delete {
+  grid-area: delete;
+  justify-self: end;
+  align-self: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.25rem 0.625rem;
+  background-color: transparent;
+  color: var(--color-expense);
+  border: 1px solid var(--color-expense);
+  border-radius: var(--radius);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.btn-delete:hover {
+  background-color: var(--color-expense);
+  color: #ffffff;
+}
+
+/* ── Chart section ──────────────────────────────────────────────────────────── */
+.chart-section {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.chart-container {
+  position: relative;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+#chart-canvas {
+  display: none; /* hidden until renderChart() shows it */
+  width: 100%;
+}
+
+.chart-placeholder {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: 2rem 0;
+}
+
+/* ── Toast notification ─────────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1e293b;
+  color: #f1f5f9;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+}
+
+.toast--hidden {
+  display: none;
+}
+
+/* =============================================================================
+   RESPONSIVE — Desktop (≥768 px)
+   ============================================================================= */
+@media (min-width: 768px) {
+
+  .app-title {
+    font-size: 1.5rem;
+  }
+
+  /* 2-column main layout */
+  .app-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "summary    summary"
+      "warning    warning"
+      "form       spending"
+      "txlist     txlist"
+      "chart      chart";
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .summary-section {
+    grid-area: summary;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  #spending-limit-warning {
+    grid-area: warning;
+  }
+
+  .form-section {
+    grid-area: form;
+  }
+
+  .spending-limit-section {
+    grid-area: spending;
+  }
+
+  .transactions-section {
+    grid-area: txlist;
+  }
+
+  .chart-section {
+    grid-area: chart;
+  }
+
+  /* Transaction item: single-row layout on wider screens */
+  .transaction-item {
+    grid-template-columns: auto auto 1fr auto auto auto;
+    grid-template-areas: "badge cat desc date amount delete";
+    align-items: center;
+    gap: 0 1rem;
+  }
+
+  .transaction-item__amount {
+    text-align: right;
+  }
+}
